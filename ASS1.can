@@ -1,0 +1,66 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+
+variables
+{
+ int count1,count2; 
+  message 0x100 msg1 = {dlc=3};
+  mstimer t1; 
+ 
+}
+
+on start
+{
+  write("start");
+   count1 = 0;
+  count2 = 0;
+ setTimerCyclic(t1,2000); 
+ 
+}
+
+
+on sysvar var1::sysvar_1
+{
+  write ("sysvar  changed");
+ write ("sysvar value = %d", @var1::sysvar_1);
+}
+
+on signal speed
+{
+  
+  write ("speed changed");
+  write ("Engine speed = %f ",getSignal(speed));
+}
+
+on signal_update speed 
+{
+  count1++;
+  write ("signal speed updated");
+  write ("Engine speed = %f ",getSignal(speed));
+}
+
+on sysvar_update var1::sysvar_1
+{
+  write ("sysvar updated");
+ write ("Updated sysvar value = %d", var1::sysvar_1);
+}
+
+
+
+on stopMeasurement
+{
+   write("Simulation Stopped");
+ write("count of mssg transmitted : %d" ,count1);
+}
+
+
+on timer t1
+{
+  
+   write("timer t1 elapsed" );
+ 
+  @var1::sysvar_1 = count2;
+}
